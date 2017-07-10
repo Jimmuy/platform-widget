@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.RelativeLayout;
 
 import com.jimmy.todos.R;
@@ -43,9 +44,9 @@ public class Refreshing extends RelativeLayout {
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.view_refresh, this, false);
         addView(binding.getRoot());
         params = new int[3];
-        params[0] = R.drawable.ball;
-        params[1] = R.drawable.icon;
-        params[2] = R.drawable.ic_menu_gallery;
+        params[0] = R.drawable.icon1;
+        params[1] = R.drawable.icon2;
+        params[2] = R.drawable.icon3;
         start();
     }
 
@@ -87,14 +88,16 @@ public class Refreshing extends RelativeLayout {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 final float animatedValue = (float) animation.getAnimatedValue();
-                binding.ivShadow.setScaleX(animatedValue);
-                binding.ivShadow.setScaleY(animatedValue * 1.2f);
+                binding.ivShadow.setScaleX(animatedValue-0.5f);
+                binding.ivShadow.setScaleY((animatedValue-0.5f) * 1.2f);
                 binding.ivBall.setTranslationY(200 * (animatedValue - 1));
+                binding.ivBall.setRotationX(90 * (animatedValue - 1));
             }
         });
+        valueAnimator.setInterpolator(new AccelerateInterpolator(1f));
         valueAnimator.setRepeatMode(ValueAnimator.REVERSE);
         valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        valueAnimator.setDuration(600).start();
+        valueAnimator.setDuration(300).start();
 
 
     }
