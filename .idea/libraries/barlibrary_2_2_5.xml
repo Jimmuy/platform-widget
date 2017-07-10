@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="barlibrary-2.2.5">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/b2c7d7ee32119462a95a138b5eaa69be5241e38b/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/b2c7d7ee32119462a95a138b5eaa69be5241e38b/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.gyf.barlibrary/barlibrary/2.2.5/6f923af03af47e702c29917622d33d16ce002939/barlibrary-2.2.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

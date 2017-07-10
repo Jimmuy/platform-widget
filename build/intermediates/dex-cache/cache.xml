@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/Users/jimmy/refreshView/app/libs/gson-2.3.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="5fc52c41ef0239d1093a1eb7c3697036183677ce">
+        <dex dex="/Users/jimmy/refreshView/app/build/intermediates/pre-dexed/debug/gson-2.3_36ad36531887891d6b0a0821bb0274c8fd45b949.jar" />
+    </item>
+
+</items>
