@@ -25,6 +25,10 @@
             android:name=".activity.RefreshViewActivity"
             android:screenOrientation="nosensor"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.CircleProgressActivity"
+            android:screenOrientation="nosensor"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
     </application>
 
 </manifest>

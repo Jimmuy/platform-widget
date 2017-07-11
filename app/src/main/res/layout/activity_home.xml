@@ -22,5 +22,18 @@
             android:text="RefreshView"
             android:textColor="@color/white"
             android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/tv_circle_progress"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:background="#345678"
+            android:gravity="center"
+            android:text="CircleProgress"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
     </LinearLayout>
 </layout>

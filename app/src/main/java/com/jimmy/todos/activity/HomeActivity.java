@@ -24,16 +24,21 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         binding.tvRefreshView.setOnClickListener(this);
+        binding.tvCircleProgress.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
+        Intent intent = null;
         switch (v.getId()) {
             case R.id.tv_refresh_view:
-                Intent intent = new Intent(this, RefreshViewActivity.class);
+                intent = new Intent(this, RefreshViewActivity.class);
                 startActivity(intent);
                 break;
-
+            case R.id.tv_circle_progress:
+                intent = new Intent(this, CircleProgressActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 }

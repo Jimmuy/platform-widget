@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data class="CircleProgressBinding">
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <com.jimmy.todos.widget.CircleProgressImageView
+            android:gravity="center"
+            android:id="@+id/iv_circle"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/icon" />
+    </LinearLayout>
+</layout>
