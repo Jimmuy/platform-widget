@@ -1,5 +1,6 @@
 package com.jimmy.todos.widget;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
@@ -8,16 +9,18 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import static android.R.attr.x;
+import static android.R.attr.y;
 
 /**
  * @author: jimmy
@@ -34,6 +37,7 @@ public class CircleProgressImageView extends ImageView {
     private Bitmap mRawBitmap;
     private BitmapShader mShader;
     private Matrix mMatrix = new Matrix();
+    private int isupdated = 0;
 
     public CircleProgressImageView(Context context) {
         this(context, null);
@@ -72,10 +76,30 @@ public class CircleProgressImageView extends ImageView {
             paint.setStrokeWidth((float) 3);              //线宽
             paint.setStyle(Paint.Style.STROKE);
             canvas.drawCircle(radius, radius, radius - 3f, mPaintBitmap);
-            canvas.drawCircle(radius, radius, radius - 3f, paint);
+//            canvas.drawCircle(radius, radius, radius - 3f, paint);
+
+            RectF oval = new RectF(getLeft(), getTop(), getRight(), getBottom());
+            if (isupdated == 2){
+                initAnimation(oval, canvas, paint);
+            }else {
+                isupdated++;
+            }
         } else {
             super.onDraw(canvas);
         }
+    }
+
+    private void initAnimation(final RectF oval, final Canvas canvas, final Paint paint) {
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 100f);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float animatedValue = (float) animation.getAnimatedValue();
+                canvas.drawArc(oval, -90, 180, false, paint);
+                Log.e("ssssssss", animatedValue + "canvas" + canvas.toString());
+            }
+        });
+        valueAnimator.setDuration(1000).start();
     }
 
     private Bitmap getBitmap(Drawable drawable) {
