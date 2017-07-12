@@ -31,5 +31,6 @@ public class CircleProgressActivity extends BaseActivity {
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_circle_progress);
+        binding.ivCircle.startAnimation();
     }
 }

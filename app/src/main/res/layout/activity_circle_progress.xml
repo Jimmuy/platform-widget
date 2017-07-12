@@ -14,8 +14,8 @@
         <com.jimmy.todos.widget.CircleProgressImageView
             android:gravity="center"
             android:id="@+id/iv_circle"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="200dp"
+            android:layout_height="300dp"
             android:src="@drawable/icon" />
     </LinearLayout>
 </layout>
