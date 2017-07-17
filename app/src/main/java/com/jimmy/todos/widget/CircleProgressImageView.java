@@ -18,12 +18,6 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.widget.ImageView;
-
-import static android.R.attr.width;
-import static android.R.attr.x;
-import static android.R.attr.y;
 
 /**
  * @author: jimmy
@@ -35,24 +29,27 @@ import static android.R.attr.y;
  * 2017/7/11     jimmy       v1.0.0        create
  **/
 
-public class CircleProgressImageView extends ImageView {
+public class CircleProgressImageView extends android.support.v7.widget.AppCompatImageView {
     private Paint mPaintBitmap = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Bitmap mRawBitmap;
     private BitmapShader mShader;
     private Matrix mMatrix = new Matrix();
     private float animatedValue = 0;
+    private Animator.AnimatorListener listener;
+    private ValueAnimator valueAnimator;
 
     public CircleProgressImageView(Context context) {
-        this(context, null);
+        super(context);
     }
 
     public CircleProgressImageView(Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
     }
 
     public CircleProgressImageView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -61,25 +58,29 @@ public class CircleProgressImageView extends ImageView {
             int viewWidth = getWidth();
             int viewHeight = getHeight();
             int viewMinSize = Math.min(viewWidth, viewHeight);
-            float dstWidth = viewMinSize;
-            float dstHeight = viewMinSize;
+
+
             if (mShader == null || !rawBitmap.equals(mRawBitmap)) {
                 mRawBitmap = rawBitmap;
                 mShader = new BitmapShader(mRawBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
             }
             if (mShader != null) {
-                mMatrix.setScale(dstWidth / rawBitmap.getWidth(), dstHeight / rawBitmap.getHeight());
+                mMatrix.setScale(viewMinSize / rawBitmap.getWidth(), viewMinSize / rawBitmap.getHeight());
                 mShader.setLocalMatrix(mMatrix);
             }
             mPaintBitmap.setShader(mShader);
             float radius = viewMinSize / 2.0f;
-            canvas.drawCircle(radius, radius, radius - 30f, mPaintBitmap);
-            canvas.drawCircle(radius, radius, radius - 30f, getPaint(Color.BLACK));
+            canvas.drawCircle(radius, radius, radius, mPaintBitmap);
 
-            RectF oval = new RectF(getLeft() + 30, getTop() + 30, getRight() - 30, getBottom() - 30);
+            if (animatedValue > 0 && animatedValue < 100) {
+                Paint paint = getPaint(Color.parseColor("#FFDEBB"));
+                float errorSize = (paint.getStrokeWidth() / 2);
+                canvas.drawCircle(radius, radius, radius - errorSize, paint);
 
-            canvas.drawArc(oval, -90, 3.6f * animatedValue, false, getPaint(Color.RED));
-
+                RectF oval = new RectF(0 + errorSize, 0 + errorSize, viewMinSize - errorSize, viewMinSize - errorSize);
+                paint.setColor(Color.parseColor("#FD8746"));
+                canvas.drawArc(oval, -90, 3.6f * animatedValue, false, paint);
+            }
         } else {
             super.onDraw(canvas);
         }
@@ -88,9 +89,9 @@ public class CircleProgressImageView extends ImageView {
     @NonNull
     private Paint getPaint(int black) {
         Paint paint = new Paint();
-        paint.setAntiAlias(true);                       //设置画笔为无锯齿
+        paint.setAntiAlias(true);
         paint.setColor(black);
-        paint.setStrokeWidth((float) 30);              //线宽
+        paint.setStrokeWidth(5);              //线宽
         paint.setStyle(Paint.Style.STROKE);
         return paint;
     }
@@ -105,8 +106,26 @@ public class CircleProgressImageView extends ImageView {
         setMeasuredDimension(min, min);
     }
 
+    public Animator getAnimator() {
+        return valueAnimator;
+    }
+
     public void startAnimation() {
-        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 100f);
+        startAnimation(3000, null);
+    }
+
+    public void startAnimation(long duration) {
+        startAnimation(duration, null);
+    }
+
+
+    public void startAnimation(Animator.AnimatorListener listener) {
+        startAnimation(3000, listener);
+    }
+
+    public void startAnimation(long duration, Animator.AnimatorListener listener) {
+        this.listener = listener;
+        valueAnimator = ValueAnimator.ofFloat(0, 100f);
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -114,29 +133,12 @@ public class CircleProgressImageView extends ImageView {
                 invalidate();
             }
         });
-        valueAnimator.setDuration(10000).start();
-        valueAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
+        valueAnimator.setDuration(duration).start();
+        if (listener != null) {
+            valueAnimator.addListener(listener);
+        }
     }
+
 
     private Bitmap getBitmap(Drawable drawable) {
         if (drawable instanceof BitmapDrawable) {
