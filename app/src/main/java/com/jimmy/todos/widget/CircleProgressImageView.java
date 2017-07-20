@@ -18,6 +18,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.widget.ImageView;
 
 /**
  * @author: jimmy
@@ -29,7 +30,7 @@ import android.util.AttributeSet;
  * 2017/7/11     jimmy       v1.0.0        create
  **/
 
-public class CircleProgressImageView extends android.support.v7.widget.AppCompatImageView {
+public class CircleProgressImageView extends ImageView {
     private Paint mPaintBitmap = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Bitmap mRawBitmap;
     private BitmapShader mShader;
@@ -37,6 +38,11 @@ public class CircleProgressImageView extends android.support.v7.widget.AppCompat
     private float animatedValue = 0;
     private Animator.AnimatorListener listener;
     private ValueAnimator valueAnimator;
+    private int outWidth = 20;
+    private int outBackgroundColor = Color.parseColor("#FFDEBB");
+
+
+    private int outCircleColor = Color.parseColor("#FD8746");
 
     public CircleProgressImageView(Context context) {
         super(context);
@@ -65,20 +71,20 @@ public class CircleProgressImageView extends android.support.v7.widget.AppCompat
                 mShader = new BitmapShader(mRawBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
             }
             if (mShader != null) {
-                mMatrix.setScale(viewMinSize / rawBitmap.getWidth(), viewMinSize / rawBitmap.getHeight());
+                mMatrix.setScale((float) viewMinSize / (float) rawBitmap.getWidth(), (float) viewMinSize / (float) rawBitmap.getHeight());
                 mShader.setLocalMatrix(mMatrix);
             }
             mPaintBitmap.setShader(mShader);
             float radius = viewMinSize / 2.0f;
-            canvas.drawCircle(radius, radius, radius, mPaintBitmap);
 
+            canvas.drawCircle(radius, radius, radius, mPaintBitmap);
             if (animatedValue > 0 && animatedValue < 100) {
-                Paint paint = getPaint(Color.parseColor("#FFDEBB"));
+                Paint paint = getPaint();
                 float errorSize = (paint.getStrokeWidth() / 2);
                 canvas.drawCircle(radius, radius, radius - errorSize, paint);
 
                 RectF oval = new RectF(0 + errorSize, 0 + errorSize, viewMinSize - errorSize, viewMinSize - errorSize);
-                paint.setColor(Color.parseColor("#FD8746"));
+                paint.setColor(outCircleColor);
                 canvas.drawArc(oval, -90, 3.6f * animatedValue, false, paint);
             }
         } else {
@@ -87,13 +93,25 @@ public class CircleProgressImageView extends android.support.v7.widget.AppCompat
     }
 
     @NonNull
-    private Paint getPaint(int black) {
+    private Paint getPaint() {
         Paint paint = new Paint();
         paint.setAntiAlias(true);
-        paint.setColor(black);
-        paint.setStrokeWidth(5);              //线宽
+        paint.setColor(outBackgroundColor);
+        paint.setStrokeWidth(outWidth);              //线宽
         paint.setStyle(Paint.Style.STROKE);
         return paint;
+    }
+
+    public void setOutWidth(int width) {
+        this.outWidth = width;
+    }
+
+    public void setOutBgColor(int color) {
+        this.outBackgroundColor = color;
+    }
+
+    public void setOutCircleColor(int outCircleColor) {
+        this.outCircleColor = outCircleColor;
     }
 
     @Override
