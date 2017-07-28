@@ -25,6 +25,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         binding.tvRefreshView.setOnClickListener(this);
         binding.tvCircleProgress.setOnClickListener(this);
+        binding.tvVerticalText.setOnClickListener(this);
     }
 
     @Override
@@ -37,6 +38,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.tv_circle_progress:
                 intent = new Intent(this, CircleProgressActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.tv_vertical_text:
+                intent = new Intent(this, VerticalTextviewActivity.class);
                 startActivity(intent);
                 break;
         }
