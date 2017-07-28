@@ -26,6 +26,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         binding.tvRefreshView.setOnClickListener(this);
         binding.tvCircleProgress.setOnClickListener(this);
         binding.tvVerticalText.setOnClickListener(this);
+        binding.tvHeaderSearch.setOnClickListener(this);
     }
 
     @Override
@@ -42,6 +43,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.tv_vertical_text:
                 intent = new Intent(this, VerticalTextviewActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.tv_header_search:
+                intent = new Intent(this, HeaderSearchActivity.class);
                 startActivity(intent);
                 break;
         }

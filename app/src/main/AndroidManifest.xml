@@ -33,6 +33,10 @@
             android:name=".activity.VerticalTextviewActivity"
             android:screenOrientation="nosensor"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.HeaderSearchActivity"
+            android:screenOrientation="nosensor"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
     </application>
 
 </manifest>
