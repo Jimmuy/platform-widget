@@ -1,14 +1,14 @@
 package com.jimmy.todos.widget;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 
 import com.jimmy.todos.R;
@@ -24,7 +24,7 @@ import com.jimmy.todos.databinding.HeaderSearchViewBinding;
  * 2017/7/28     jimmy       v1.0.0        create
  **/
 
-public class HeaderSearchView extends LinearLayout {
+public class HeaderSearchView extends LinearLayout implements ViewTreeObserver.OnGlobalLayoutListener {
     private Context context;
     private HeaderSearchViewBinding binding;
 
@@ -45,49 +45,72 @@ public class HeaderSearchView extends LinearLayout {
     private void init() {
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.view_header_search, this, false);
         addView(binding.getRoot());
+        getViewTreeObserver().addOnGlobalLayoutListener(this);
     }
 
+    int rightWidth;
+    int leftWidth;
+
+
     public void startEnlargeAnimation() {
-        ValueAnimator animator = ValueAnimator.ofFloat(1f);
-        animator.setDuration(800);
-        animator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(binding.etSearch, "scaleX", 0.99f, 1f);
-                objectAnimator.setDuration(300);
-                objectAnimator.start();
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-            }
-        });
-
+        if (leftWidth == 0 || rightWidth == 0) {
+            return;
+        }
+        binding.llLeftBtn.setVisibility(INVISIBLE);
+        binding.llRightBtns.setVisibility(INVISIBLE);
+        ValueAnimator animator = ValueAnimator.ofFloat(1f, 0f, 0.2f);
+        animator.setDuration(500);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float animatedValue = (float) animation.getAnimatedValue();
                 Log.e("TAB", animatedValue + "");
-                LayoutParams layoutParams = new LayoutParams((int) ((1f - animatedValue) * 80), LayoutParams.WRAP_CONTENT);
+
+                LayoutParams layoutParams = new LayoutParams((int) ((animatedValue) * leftWidth), LayoutParams.WRAP_CONTENT);
                 binding.llLeftBtn.setLayoutParams(layoutParams);
-                LayoutParams layoutParams1 = new LayoutParams((int) ((1f - animatedValue) * 160), LayoutParams.WRAP_CONTENT);
+                LayoutParams layoutParams1 = new LayoutParams((int) ((animatedValue) * rightWidth), LayoutParams.WRAP_CONTENT);
+
                 binding.llRightBtns.setLayoutParams(layoutParams1);
+
+                if (animatedValue == 0f) {
+                    rightWidth = leftWidth;
+                }
+
             }
         });
         animator.start();
     }
 
     public void startShrinkAnimation() {
+        if (leftWidth == 0 || rightWidth == 0) {
+            return;
+        }
+        ValueAnimator animator = ValueAnimator.ofFloat(0.2f, 1f, 1.2f, 1f);
+        animator.setDuration(500);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float animatedValue = (float) animation.getAnimatedValue();
+                Log.e("TAB", animatedValue + "");
+                LayoutParams layoutParams = new LayoutParams((int) ((animatedValue) * leftWidth), LayoutParams.WRAP_CONTENT);
+                binding.llLeftBtn.setLayoutParams(layoutParams);
+                LayoutParams layoutParams1 = new LayoutParams((int) ((animatedValue) * rightWidth), LayoutParams.WRAP_CONTENT);
+                binding.llRightBtns.setLayoutParams(layoutParams1);
+            }
+        });
+        animator.start();
+    }
 
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
+    }
+
+    @Override
+    public void onGlobalLayout() {
+        leftWidth = binding.llLeftBtn.getWidth();
+        rightWidth = binding.llRightBtns.getWidth();
+        getViewTreeObserver().removeGlobalOnLayoutListener(this);
     }
 }
