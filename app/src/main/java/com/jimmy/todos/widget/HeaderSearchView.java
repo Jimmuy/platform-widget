@@ -1,5 +1,6 @@
 package com.jimmy.todos.widget;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -50,6 +51,7 @@ public class HeaderSearchView extends LinearLayout implements ViewTreeObserver.O
 
     int rightWidth;
     int leftWidth;
+    float rate;
 
 
     public void startEnlargeAnimation() {
@@ -59,22 +61,16 @@ public class HeaderSearchView extends LinearLayout implements ViewTreeObserver.O
         binding.llLeftBtn.setVisibility(INVISIBLE);
         binding.llRightBtns.setVisibility(INVISIBLE);
         ValueAnimator animator = ValueAnimator.ofFloat(1f, 0f, 0.2f);
-        animator.setDuration(500);
+        animator.setDuration(350);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float animatedValue = (float) animation.getAnimatedValue();
-                Log.e("TAB", animatedValue + "");
-
                 LayoutParams layoutParams = new LayoutParams((int) ((animatedValue) * leftWidth), LayoutParams.WRAP_CONTENT);
                 binding.llLeftBtn.setLayoutParams(layoutParams);
-                LayoutParams layoutParams1 = new LayoutParams((int) ((animatedValue) * rightWidth), LayoutParams.WRAP_CONTENT);
+                LayoutParams layoutParams1 = new LayoutParams((int) ((animatedValue) * rightWidth * rate), LayoutParams.WRAP_CONTENT);
 
                 binding.llRightBtns.setLayoutParams(layoutParams1);
-
-                if (animatedValue == 0f) {
-                    rightWidth = leftWidth;
-                }
 
             }
         });
@@ -86,12 +82,11 @@ public class HeaderSearchView extends LinearLayout implements ViewTreeObserver.O
             return;
         }
         ValueAnimator animator = ValueAnimator.ofFloat(0.2f, 1f, 1.2f, 1f);
-        animator.setDuration(500);
+        animator.setDuration(350);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float animatedValue = (float) animation.getAnimatedValue();
-                Log.e("TAB", animatedValue + "");
                 LayoutParams layoutParams = new LayoutParams((int) ((animatedValue) * leftWidth), LayoutParams.WRAP_CONTENT);
                 binding.llLeftBtn.setLayoutParams(layoutParams);
                 LayoutParams layoutParams1 = new LayoutParams((int) ((animatedValue) * rightWidth), LayoutParams.WRAP_CONTENT);
@@ -99,6 +94,28 @@ public class HeaderSearchView extends LinearLayout implements ViewTreeObserver.O
             }
         });
         animator.start();
+        animator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                binding.llLeftBtn.setVisibility(VISIBLE);
+                binding.llRightBtns.setVisibility(VISIBLE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
     }
 
     @Override
@@ -111,6 +128,7 @@ public class HeaderSearchView extends LinearLayout implements ViewTreeObserver.O
     public void onGlobalLayout() {
         leftWidth = binding.llLeftBtn.getWidth();
         rightWidth = binding.llRightBtns.getWidth();
+        rate = (float) leftWidth / (float) rightWidth;
         getViewTreeObserver().removeGlobalOnLayoutListener(this);
     }
 }
