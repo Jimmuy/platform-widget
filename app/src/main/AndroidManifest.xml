@@ -37,6 +37,11 @@
             android:name=".activity.HeaderSearchActivity"
             android:screenOrientation="nosensor"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.HorizontalGridActivity"
+            android:screenOrientation="nosensor"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
     </application>
 
 </manifest>
