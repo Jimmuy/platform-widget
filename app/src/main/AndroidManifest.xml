@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jimmy.todos">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/icon"
@@ -39,6 +40,10 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".activity.HorizontalGridActivity"
+            android:screenOrientation="nosensor"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.JsBridgeActivity"
             android:screenOrientation="nosensor"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 

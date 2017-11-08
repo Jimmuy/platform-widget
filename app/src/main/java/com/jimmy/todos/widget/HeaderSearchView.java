@@ -4,10 +4,8 @@ import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
@@ -116,12 +114,6 @@ public class HeaderSearchView extends LinearLayout implements ViewTreeObserver.O
 
             }
         });
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
     }
 
     @Override

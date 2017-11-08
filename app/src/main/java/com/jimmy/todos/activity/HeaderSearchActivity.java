@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.jimmy.todos.R;
 import com.jimmy.todos.databinding.HeaderSearchBinding;
@@ -35,11 +37,17 @@ public class HeaderSearchActivity extends Activity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_start:
-                binding.tvHeaderSearchView.startEnlargeAnimation();
+                Toast.makeText(this, "1111", Toast.LENGTH_LONG).show();
+              binding.tvHeaderSearchView.startEnlargeAnimation();
                 break;
-            case R.id.btn_revers:
-                binding.tvHeaderSearchView.startShrinkAnimation();
+            case R.id.btn_revers:binding.tvHeaderSearchView.startShrinkAnimation();
                 break;
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        binding.tvHeaderSearchView.onTouchEvent(event);
+        return super.onTouchEvent(event);
     }
 }

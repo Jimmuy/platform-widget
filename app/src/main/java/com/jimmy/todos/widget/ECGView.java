@@ -82,7 +82,6 @@ public class ECGView extends View {
 
         // 向左平移画布
         canvas.translate(-transX, 0);
-
         // 计算坐标
         calCoors();
 

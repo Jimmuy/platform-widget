@@ -167,14 +167,16 @@ public class HorizontalGridView extends LinearLayout {
 
             @Override
             public void onAnimationCancel(Animator animation) {
-                mCanceled = true;
-                animatorLeft.setIntValues(animationValue, 0);
-                postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        animatorLeft.start();
-                    }
-                }, mDuration);
+                if (mCanceled == false) {
+                    mCanceled = true;
+                    animatorLeft.setIntValues(animationValue, 0);
+                    postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            animatorLeft.start();
+                        }
+                    }, mDuration);
+                }
             }
 
             @Override
@@ -235,7 +237,7 @@ public class HorizontalGridView extends LinearLayout {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    cancelAndStartDelay();
+                    cancelAndStartDelay(false);
                     Toast.makeText(context, position + "", Toast.LENGTH_SHORT).show();
 
                 }
@@ -272,7 +274,8 @@ public class HorizontalGridView extends LinearLayout {
         this.mDuration = mDuration;
     }
 
-    public void cancelAndStartDelay() {
+    public void cancelAndStartDelay(boolean needRestart) {
+        mCanceled =needRestart;
         animatorSet.cancel();
         animatorLeft.cancel();
         animatorRight.cancel();

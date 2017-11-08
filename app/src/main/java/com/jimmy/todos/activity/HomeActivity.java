@@ -9,7 +9,7 @@ import com.jimmy.todos.R;
 import com.jimmy.todos.base.BaseActivity;
 import com.jimmy.todos.databinding.HomeBinding;
 
-public class HomeActivity extends BaseActivity implements View.OnClickListener {
+public class HomeActivity extends BaseActivity implements View.OnClickListener{
     private static final String TODO_LIST = "todo_list";
 
     private HomeBinding binding;
@@ -20,7 +20,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         initView();
 
     }
-
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         binding.tvRefreshView.setOnClickListener(this);
@@ -28,6 +27,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         binding.tvVerticalText.setOnClickListener(this);
         binding.tvHeaderSearch.setOnClickListener(this);
         binding.tvHorizontalGrid.setOnClickListener(this);
+        binding.tvJsBridge.setOnClickListener(this);
     }
 
     @Override
@@ -54,6 +54,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 intent = new Intent(this, HorizontalGridActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.tv_js_bridge:
+                intent = new Intent(this, JsBridgeActivity.class);
+                startActivity(intent);
+                break;
         }
     }
+
 }

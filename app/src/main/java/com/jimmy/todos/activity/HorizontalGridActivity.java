@@ -68,5 +68,9 @@ public class HorizontalGridActivity extends BaseActivity {
         binding.hgvGrid.setData((ArrayList<HorizontalGridView.CityItem>) cityList);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding.hgvGrid.cancelAndStartDelay(true);
+    }
 }

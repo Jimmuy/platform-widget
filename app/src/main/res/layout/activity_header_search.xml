@@ -12,8 +12,7 @@
         <com.jimmy.todos.widget.HeaderSearchView
             android:id="@+id/tv_header_search_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp">
+            android:layout_height="wrap_content">
 
         </com.jimmy.todos.widget.HeaderSearchView>
 
