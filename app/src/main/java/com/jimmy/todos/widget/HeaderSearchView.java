@@ -51,6 +51,11 @@ public class HeaderSearchView extends LinearLayout implements ViewTreeObserver.O
     int leftWidth;
     float rate;
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+    }
 
     public void startEnlargeAnimation() {
         if (leftWidth == 0 || rightWidth == 0) {
@@ -74,6 +79,7 @@ public class HeaderSearchView extends LinearLayout implements ViewTreeObserver.O
         });
         animator.start();
     }
+
 
     public void startShrinkAnimation() {
         if (leftWidth == 0 || rightWidth == 0) {
@@ -122,5 +128,10 @@ public class HeaderSearchView extends LinearLayout implements ViewTreeObserver.O
         rightWidth = binding.llRightBtns.getWidth();
         rate = (float) leftWidth / (float) rightWidth;
         getViewTreeObserver().removeGlobalOnLayoutListener(this);
+    }
+
+    public void scroll(int distance) {
+        binding.llLeftBtn.setPadding(-(int) (distance * rate), 0, 0, 0);
+        binding.llRightBtns.setPadding(0, 0, - distance, 0);
     }
 }

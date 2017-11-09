@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -21,7 +22,7 @@ import com.jimmy.todos.databinding.HeaderSearchBinding;
  * 2017/7/28     jimmy       v1.0.0        create
  **/
 
-public class HeaderSearchActivity extends Activity implements View.OnClickListener {
+public class HeaderSearchActivity extends Activity implements View.OnClickListener, View.OnScrollChangeListener {
 
     private HeaderSearchBinding binding;
 
@@ -31,6 +32,7 @@ public class HeaderSearchActivity extends Activity implements View.OnClickListen
         binding = DataBindingUtil.setContentView(this, R.layout.activity_header_search);
         binding.btnStart.setOnClickListener(this);
         binding.btnRevers.setOnClickListener(this);
+        binding.sv.setOnScrollChangeListener(this);
     }
 
     @Override
@@ -38,9 +40,10 @@ public class HeaderSearchActivity extends Activity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.btn_start:
                 Toast.makeText(this, "1111", Toast.LENGTH_LONG).show();
-              binding.tvHeaderSearchView.startEnlargeAnimation();
+                binding.tvHeaderSearchView.startEnlargeAnimation();
                 break;
-            case R.id.btn_revers:binding.tvHeaderSearchView.startShrinkAnimation();
+            case R.id.btn_revers:
+                binding.tvHeaderSearchView.startShrinkAnimation();
                 break;
         }
     }
@@ -49,5 +52,12 @@ public class HeaderSearchActivity extends Activity implements View.OnClickListen
     public boolean onTouchEvent(MotionEvent event) {
         binding.tvHeaderSearchView.onTouchEvent(event);
         return super.onTouchEvent(event);
+    }
+
+    @Override
+    public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        Log.e("xxxxx", "scrollY :" + scrollY + "  oldScrollY: " + oldScrollY);
+        binding.tvHeaderSearchView.scroll(oldScrollY);
+
     }
 }
